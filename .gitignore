@@ -206,3 +206,11 @@ __pycache__/
 
 models/RealESR*
 *.safetensors
+
+
+
+
+### TouchDesigner
+td/Backup
+*.*.toe
+CrashAutoSave*.toe

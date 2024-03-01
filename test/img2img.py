@@ -4,8 +4,7 @@ import os
 sys.path.append(
     os.path.join(
         os.path.dirname(__file__),
-        "..",
-        "..",
+        ".."
     )
 )
 
@@ -81,13 +80,12 @@ class Pipeline:
             width=params.width,
             height=params.height,
             use_lcm_lora=False,
-            output_type="pil",
             warmup=10,
             vae_id=None,
             acceleration=args.acceleration,
             mode="img2img",
             use_denoising_batch=True,
-            cfg_type="none",
+            cfg_type="self",
             use_safety_checker=args.safety_checker,
             # enable_similar_image_filter=True,
             # similar_image_filter_threshold=0.98,
@@ -99,11 +97,16 @@ class Pipeline:
             prompt=default_prompt,
             negative_prompt=default_negative_prompt,
             num_inference_steps=50,
-            guidance_scale=0.2,
+            guidance_scale=1.2,
         )
 
     def predict(self, params: "Pipeline.InputParams") -> Image.Image:
         image_tensor = self.stream.preprocess_image(params.image)
         output_image = self.stream(image=image_tensor, prompt=params.prompt)
 
+        return output_image
+
+    def predict_test(self, src, prompt="1girl") -> Image.Image:
+        image_tensor = self.stream.preprocess_image(src)
+        output_image = self.stream(image=image_tensor, prompt=prompt)
         return output_image
